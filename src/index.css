@@ -1,0 +1,194 @@
+
+/* @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 153 40% 98%; /* Light green-tinted background */
+    --foreground: 153 60% 10%; /* Dark green-tinted foreground */
+
+    --card: 0 0% 100%; /* White card for contrast */
+    --card-foreground: 153 60% 10%; /* Matches foreground */
+
+    --popover: 0 0% 100%; /* White popover */
+    --popover-foreground: 153 60% 10%; /* Matches foreground */
+
+    --primary: 153 57% 50%; /* Base color */
+    --primary-foreground: 0 0% 100%; /* White for contrast */
+
+    --secondary: 153 30% 90%; /* Light green-tinted secondary */
+    --secondary-foreground: 153 60% 10%; /* Matches foreground */
+
+    --muted: 153 25% 92%; /* Muted green tint */
+    --muted-foreground: 153 30% 50%; /* Mid-tone green */
+
+    --accent: 150 50% 60%; /* Slightly shifted hue for accent */
+    --accent-foreground: 0 0% 100%; /* White for contrast */
+
+    --destructive: 0 70% 50%; /* Red for destructive actions */
+    --destructive-foreground: 0 0% 100%; /* White for readability */
+
+    --border: 153 20% 85%; /* Light green-tinted border */
+    --input: 153 20% 85%; /* Matches border */
+    --ring: 153 57% 50%; /* Matches primary */
+
+    /* Harmonized gradients with base color */
+    --gradient-primary: linear-gradient(135deg, hsl(153, 57%, 50%), hsl(150, 50%, 60%));
+    --gradient-secondary: linear-gradient(180deg, hsl(153, 40%, 98%), hsl(153, 30%, 90%));
+    --gradient-accent: linear-gradient(45deg, hsl(153, 57%, 50%), hsl(150, 50%, 60%));
+    --gradient-hero: linear-gradient(135deg, hsl(153, 57%, 50%) 0%, hsl(150, 50%, 60%) 50%, hsl(153, 57%, 50%) 100%);
+    
+    /* Shadows harmonized with base color */
+    --shadow-primary: 0 20px 40px -10px hsl(153, 57%, 50%);
+    --shadow-card: 0 8px 25px -5px hsl(153, 57%, 50%);
+    --shadow-hover: 0 20px 50px -10px hsl(153, 57%, 50%);
+    --shadow-elegant: 0 25px 50px -12px hsl(153, 57%, 50%);
+    --shadow-glow: 0 0 40px hsl(153, 57%, 50%);
+    
+    /* Animation timings */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 153 40% 98%; /* Matches background */
+    --sidebar-foreground: 153 60% 10%; /* Matches foreground */
+    --sidebar-primary: 153 57% 50%; /* Matches primary */
+    --sidebar-primary-foreground: 0 0% 100%; /* White for contrast */
+    --sidebar-accent: 153 30% 90%; /* Matches secondary */
+    --sidebar-accent-foreground: 153 60% 10%; /* Matches foreground */
+    --sidebar-border: 153 20% 85%; /* Matches border */
+    --sidebar-ring: 153 57% 50%; /* Matches primary */
+  }
+
+  .dark {
+    --background: 153 60% 10%; /* Dark green-tinted background */
+    --foreground: 153 40% 98%; /* Light green-tinted foreground */
+
+    --card: 153 60% 10%; /* Matches dark background */
+    --card-foreground: 153 40% 98%; /* Matches foreground */
+
+    --popover: 153 60% 10%; /* Matches dark background */
+    --popover-foreground: 153 40% 98%; /* Matches foreground */
+
+    --primary: 153 57% 50%; /* Base color */
+    --primary-foreground: 0 0% 100%; /* White for contrast */
+
+    --secondary: 153 30% 20%; /* Darker green-tinted secondary */
+    --secondary-foreground: 153 40% 98%; /* Matches foreground */
+
+    --muted: 153 25% 25%; /* Muted dark green */
+    --muted-foreground: 153 30% 60%; /* Mid-tone green for dark mode */
+
+    --accent: 150 50% 60%; /* Slightly shifted hue for accent */
+    --accent-foreground: 0 0% 100%; /* White for contrast */
+
+    --destructive: 0 70% 50%; /* Red for destructive actions */
+    --destructive-foreground: 0 0% 100%; /* White for readability */
+
+    --border: 153 20% 25%; /* Dark green-tinted border */
+    --input: 153 20% 25%; /* Matches border */
+    --ring: 153 57% 50%; /* Matches primary */
+
+    /* Dark mode gradients harmonized with base color */
+    --gradient-primary: linear-gradient(135deg, hsl(153, 57%, 50%), hsl(150, 50%, 60%));
+    --gradient-secondary: linear-gradient(180deg, hsl(153, 60%, 10%), hsl(153, 30%, 20%));
+    --gradient-accent: linear-gradient(45deg, hsl(153, 57%, 50%), hsl(150, 50%, 60%));
+    --gradient-hero: linear-gradient(135deg, hsl(153, 57%, 50%) 0%, hsl(150, 50%, 60%) 50%, hsl(153, 57%, 50%) 100%);
+    
+    /* Dark mode shadows harmonized with base color */
+    --shadow-primary: 0 20px 40px -10px hsl(153, 57%, 50%);
+    --shadow-card: 0 8px 25px -5px hsla(153, 57%, 50%, 0.25);
+    --shadow-hover: 0 20px 50px -10px hsl(153, 57%, 50%);
+    --shadow-elegant: 0 25px 50px -12px hsl(153, 57%, 50%);
+    --shadow-glow: 0 0 40px hsl(153, 57%, 50%);
+    
+    --sidebar-background: 153 60% 10%; /* Matches dark background */
+    --sidebar-foreground: 153 40% 98%; /* Matches foreground */
+    --sidebar-primary: 153 57% 50%; /* Matches primary */
+    --sidebar-primary-foreground: 0 0% 100%; /* White for contrast */
+    --sidebar-accent: 153 30% 20%; /* Matches secondary */
+    --sidebar-accent-foreground: 153 40% 98%; /* Matches foreground */
+    --sidebar-border: 153 20% 25%; /* Matches border */
+    --sidebar-ring: 153 57% 50%; /* Matches primary */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground ;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv11";
+     font-family: "IBM Plex Sans Arabic", sans-serif;
+  }
+}
+
+@layer components {
+  /* Enhanced Step Circle Animation */
+  .step-circle {
+    @apply relative overflow-hidden;
+    transition: var(--transition-spring);
+  }
+  
+  .step-circle::before {
+    content: '';
+    @apply absolute inset-0 rounded-full;
+    background: var(--gradient-hero);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: var(--transition-spring);
+  }
+  
+  .step-circle.active::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  .step-circle.completed {
+    @apply relative;
+    animation: pulse-success 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulse-success {
+    0%, 100% { 
+      box-shadow: 0 0 0 0 hsl(var(--primary) / 0.7);
+    }
+    50% { 
+      box-shadow: 0 0 0 10px hsl(var(--primary) / 0);
+    }
+  }
+  
+  /* Enhanced Card Hover Effects */
+  .card-hover {
+    transition: var(--transition-smooth);
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+  }
+  
+  /* Glassmorphism Effect */
+  .glass {
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .glass-dark {
+    backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+.step-circle.active::before{
+  opacity: 0;
+}
