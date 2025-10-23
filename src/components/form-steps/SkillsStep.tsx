@@ -3,9 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, ArrowRight, Plus, X, Code, Server, Database, Palette } from 'lucide-react';
+import { RiTeamFill } from 'react-icons/ri';
 import { FormData } from '../ApplicationForm';
-import { connect } from 'http2';
-import { RiTeamFill } from "react-icons/ri";
+import { motion } from 'framer-motion';
+
 interface SkillsStepProps {
   formData: FormData;
   updateFormData: (updates: Partial<FormData>) => void;
@@ -19,28 +20,28 @@ const skillCategories = {
   programming: {
     icon: Code,
     title: 'لغات البرمجة',
-    skills: ['Html' , 'Css' , 'JavaScript', 'TypeScript', 'Python', 'Java', 'C#', 'PHP', 'React', 'Vue.js', 'Angular', 'Node.js' ]
+    skills: ['Html', 'Css', 'JavaScript', 'TypeScript', 'Python', 'Java', 'C#', 'PHP', 'React', 'Vue.js', 'Angular', 'Node.js'],
   },
   backend: {
     icon: Server,
     title: 'Backend و الخوادم',
-    skills: ['Express.js', 'Django', 'Laravel', 'ASP.NET', 'Spring Boot', 'Docker', 'Kubernetes', 'AWS', 'Azure']
+    skills: ['Express.js', 'Django', 'Laravel', 'ASP.NET', 'Spring Boot', 'Docker', 'Kubernetes', 'AWS', 'Azure'],
   },
   database: {
     icon: Database,
     title: 'قواعد البيانات',
-    skills: ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis', 'SQLite', 'Oracle', 'Supabase', 'Firebase']
+    skills: ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis', 'SQLite', 'Oracle', 'Supabase', 'Firebase'],
   },
   design: {
     icon: Palette,
     title: 'التصميم والواجهات',
-    skills: ['Figma', 'Adobe XD', 'Photoshop', 'Illustrator', 'UI/UX Design', 'Tailwind CSS', 'Bootstrap', 'Material-UI']
-  },   
+    skills: ['Figma', 'Adobe XD', 'Photoshop', 'Illustrator', 'UI/UX Design', 'Tailwind CSS', 'Bootstrap', 'Material-UI'],
+  },
   connect: {
     icon: RiTeamFill,
-    title: 'التواصل  (اساسي)',
-    skills: ['Git & GitHub']
-  }
+    title: 'التواصل (أساسي)',
+    skills: ['Git & GitHub'],
+  },
 };
 
 export const SkillsStep: React.FC<SkillsStepProps> = ({
@@ -51,6 +52,19 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({
 }) => {
   const [newSkill, setNewSkill] = useState('');
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+  };
+
   const addSkill = (skill: string) => {
     if (skill && !formData.skills.includes(skill)) {
       updateFormData({ skills: [...formData.skills, skill] });
@@ -59,8 +73,8 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({
   };
 
   const removeSkill = (skillToRemove: string) => {
-    updateFormData({ 
-      skills: formData.skills.filter(skill => skill !== skillToRemove) 
+    updateFormData({
+      skills: formData.skills.filter((skill) => skill !== skillToRemove),
     });
   };
 
@@ -70,51 +84,61 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-foreground mb-2">
+    <motion.form
+      onSubmit={handleSubmit}
+      className="space-y-6 glass-dark p-8 rounded-2xl border border-white/10"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.div variants={itemVariants} className="text-center mb-8">
+        <motion.h2
+          className="text-3xl font-bold text-white mb-2"
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          transition={{ type: 'spring', stiffness: 100 }}
+        >
           المهارات والخبرات
-        </h2>
-        <p className="text-muted-foreground">
+        </motion.h2>
+        <p className="text-gray-300">
           اختر مهاراتك التقنية أو أضف مهارات جديدة
         </p>
-      </div>
+      </motion.div>
 
-      {/* Selected Skills */}
       {formData.skills.length > 0 && (
-        <div className="space-y-2">
-          <h3 className="font-semibold text-foreground">المهارات المختارة:</h3>
+        <motion.div variants={itemVariants} className="space-y-2">
+          <h3 className="font-semibold text-white">المهارات المختارة:</h3>
           <div className="flex flex-wrap gap-2">
             {formData.skills.map((skill) => (
-              <Badge
-                key={skill}
-                variant="default"
-                className="bg-primary text-primary-foreground flex items-center gap-1 px-3 py-1"
-              >
-                {skill}
-                <button
-                  type="button"
-                  onClick={() => removeSkill(skill)}
-                  className="ml-1 hover:bg-primary-foreground/20 rounded-full p-0.5"
+              <motion.div key={skill} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Badge
+                  variant="default"
+                  className="bg-emerald-500 text-white flex items-center gap-1 px-3 py-1"
                 >
-                  <X className="w-3 h-3" />
-                </button>
-              </Badge>
+                  {skill}
+                  <button
+                    type="button"
+                    onClick={() => removeSkill(skill)}
+                    className="ml-1 hover:bg-white/20 rounded-full p-0.5"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </Badge>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       )}
 
-      {/* Add Custom Skill */}
-      <div className="space-y-2">
-        <h3 className="font-semibold text-foreground">إضافة مهارة مخصصة:</h3>
+      <motion.div variants={itemVariants} className="space-y-2">
+        <h3 className="font-semibold text-white">إضافة مهارة مخصصة:</h3>
         <div className="flex gap-2">
           <Input
             type="text"
             value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
             placeholder="أدخل اسم المهارة"
-            className="text-right flex-1"
+            className="text-right flex-1 bg-white/5 border-white/20 text-white placeholder-gray-400 focus:border-emerald-400/50 transition-all"
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault();
@@ -122,75 +146,85 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({
               }
             }}
           />
-          <Button
-            type="button"
-            onClick={() => addSkill(newSkill)}
-            disabled={!newSkill.trim()}
-            className="px-4"
-          >
-            <Plus className="w-4 h-4" />
-          </Button>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button
+              type="button"
+              onClick={() => addSkill(newSkill)}
+              disabled={!newSkill.trim()}
+              className="px-4 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-xl"
+            >
+              <Plus className="w-4 h-4" />
+            </Button>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Skill Categories */}
       <div className="grid md:grid-cols-2 gap-6">
-        {Object.entries(skillCategories).map(([key, category]) => {
+        {Object.entries(skillCategories).map(([key, category], index) => {
           const IconComponent = category.icon;
           return (
-            <div key={key} className="space-y-4">
-              <h3 className="font-semibold text-foreground flex items-center gap-2">
-                <IconComponent className="w-5 h-5 text-primary" />
+            <motion.div key={key} variants={itemVariants} className="space-y-4">
+              <h3 className="font-semibold text-white flex items-center gap-2">
+                <IconComponent className="w-5 h-5 text-emerald-400" />
                 {category.title}
               </h3>
               <div className="grid grid-cols-2 gap-2">
                 {category.skills.map((skill) => (
-                  <Button
-                    key={skill}
-                    type="button"
-                    variant={formData.skills.includes(skill) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => {
-                      if (formData.skills.includes(skill)) {
-                        removeSkill(skill);
-                      } else {
-                        addSkill(skill);
-                      }
-                    }}
-                    className={`text-xs justify-start ${
-                      formData.skills.includes(skill)
-                        ? 'bg-primary text-primary-foreground'
-                        : 'hover:bg-primary/70'
-                    }`}
-                  >
-                    {skill}
-                  </Button>
+                  <motion.div key={skill} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button
+                      type="button"
+                      variant={formData.skills.includes(skill) ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => {
+                        if (formData.skills.includes(skill)) {
+                          removeSkill(skill);
+                        } else {
+                          addSkill(skill);
+                        }
+                      }}
+                      className={`text-xs justify-start ${
+                        formData.skills.includes(skill)
+                          ? 'bg-emerald-500 text-white'
+                          : 'border-white/20 text-white hover:bg-white/10'
+                      }`}
+                    >
+                      {skill}
+                    </Button>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
 
-      <div className="flex justify-between pt-6">
-        <Button
-          type="button"
-          onClick={prevStep}
-          variant="outline"
-          className="flex items-center gap-2"
-        >
-          <ArrowRight className="w-4 h-4" />
-          السابق
-        </Button>
-        
-        <Button 
-          type="submit"
-          className="bg-gradient-primary hover:shadow-hover transition-all duration-300"
-        >
-          التالي
-          <ArrowLeft className="w-4 h-4 mr-2" />
-        </Button>
-      </div>
-    </form>
+      <motion.div variants={itemVariants} className="flex justify-between pt-6">
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Button
+            type="button"
+            onClick={prevStep}
+            variant="outline"
+            className="flex items-center gap-2 border-white/20 text-white hover:bg-white/10"
+          >
+            <ArrowRight className="w-4 h-4" />
+            السابق
+          </Button>
+        </motion.div>
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Button
+            type="submit"
+            className="group relative bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-xl font-bold shadow-lg overflow-hidden"
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              التالي
+              <ArrowLeft className="w-4 h-4 group-hover:translate-x-[-4px] transition-transform" />
+            </span>
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity"
+            />
+          </Button>
+        </motion.div>
+      </motion.div>
+    </motion.form>
   );
 };

@@ -1,14 +1,11 @@
-
-/* @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap');
 
 @font-face {
 
-    font-family: ExpoArabic;
+    font-family: GraphicSchool;
 
-    src: url(/ExpoArabic-Book.ttf);
+    src: url(/GraphicSchool-Regular.ttf);
 }
-
 
 @tailwind base;
 @tailwind components;
@@ -16,136 +13,138 @@
 
 @layer base {
   :root {
-    --background: 153 40% 98%; /* Light green-tinted background */
-    --foreground: 153 60% 10%; /* Dark green-tinted foreground */
+    --background: 207 40% 8%; /* Dark slate background similar to Contact */
+    --foreground: 0 0% 95%; /* Light gray/white for text */
 
-    --card: 0 0% 100%; /* White card for contrast */
-    --card-foreground: 153 60% 10%; /* Matches foreground */
+    --card: 207 40% 10%; /* Slightly lighter dark card */
+    --card-foreground: 0 0% 95%; /* Matches foreground */
 
-    --popover: 0 0% 100%; /* White popover */
-    --popover-foreground: 153 60% 10%; /* Matches foreground */
+    --popover: 207 40% 10%; /* Matches card */
+    --popover-foreground: 0 0% 95%; /* Matches foreground */
 
-    --primary: 153 57% 50%; /* Base color */
+    --primary: 159 65% 45%; /* Emerald #10b981 */
     --primary-foreground: 0 0% 100%; /* White for contrast */
 
-    --secondary: 153 30% 90%; /* Light green-tinted secondary */
-    --secondary-foreground: 153 60% 10%; /* Matches foreground */
+    --secondary: 187 71% 47%; /* Cyan #06b6d4 */
+    --secondary-foreground: 0 0% 100%; /* White for contrast */
 
-    --muted: 153 25% 92%; /* Muted green tint */
-    --muted-foreground: 153 30% 50%; /* Mid-tone green */
+    --muted: 207 40% 15%; /* Slightly lighter muted slate */
+    --muted-foreground: 0 0% 70%; /* Gray for muted text */
 
-    --accent: 150 50% 60%; /* Slightly shifted hue for accent */
+    --accent: 267 58% 61%; /* Purple #8b5cf6 */
     --accent-foreground: 0 0% 100%; /* White for contrast */
 
     --destructive: 0 70% 50%; /* Red for destructive actions */
     --destructive-foreground: 0 0% 100%; /* White for readability */
 
-    --border: 153 20% 85%; /* Light green-tinted border */
-    --input: 153 20% 85%; /* Matches border */
-    --ring: 153 57% 50%; /* Matches primary */
+    --border: 207 40% 20%; /* Slightly lighter slate border */
+    --input: 207 40% 20%; /* Matches border */
+    --ring: 159 65% 45%; /* Matches primary (emerald) */
 
-    /* Harmonized gradients with base color */
-    --gradient-primary: linear-gradient(135deg, hsl(153, 57%, 50%), hsl(150, 50%, 60%));
-    --gradient-secondary: linear-gradient(180deg, hsl(153, 40%, 98%), hsl(153, 30%, 90%));
-    --gradient-accent: linear-gradient(45deg, hsl(153, 57%, 50%), hsl(150, 50%, 60%));
-    --gradient-hero: linear-gradient(135deg, hsl(153, 57%, 50%) 0%, hsl(150, 50%, 60%) 50%, hsl(153, 57%, 50%) 100%);
-    
-    /* Shadows harmonized with base color */
-    --shadow-primary: 0 20px 40px -10px hsl(153, 57%, 50%);
-    --shadow-card: 0 8px 25px -5px hsl(153, 57%, 50%);
-    --shadow-hover: 0 20px 50px -10px hsl(153, 57%, 50%);
-    --shadow-elegant: 0 25px 50px -12px hsl(153, 57%, 50%);
-    --shadow-glow: 0 0 40px hsl(153, 57%, 50%);
-    
+    /* Gradients inspired by Contact component */
+    --gradient-primary: linear-gradient(135deg, #10b981, #06b6d4);
+    --gradient-secondary: linear-gradient(180deg, #0a0e17, #1e293b);
+    --gradient-accent: linear-gradient(45deg, #10b981, #8b5cf6);
+    --gradient-hero: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #8b5cf6 100%);
+
+    /* Shadows inspired by Contact component */
+    --shadow-primary: 0 20px 40px -10px rgba(16, 185, 129, 0.5);
+    --shadow-card: 0 8px 25px -5px rgba(16, 185, 129, 0.25);
+    --shadow-hover: 0 20px 50px -10px rgba(16, 185, 129, 0.5);
+    --shadow-elegant: 0 25px 50px -12px rgba(16, 185, 129, 0.5);
+    --shadow-glow: 0 0 40px rgba(16, 185, 129, 0.3);
+
     /* Animation timings */
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-spring: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-    --radius: 0.5rem;
+    --radius: 0.75rem; /* Slightly larger radius for consistency with Contact */
 
-    --sidebar-background: 153 40% 98%; /* Matches background */
-    --sidebar-foreground: 153 60% 10%; /* Matches foreground */
-    --sidebar-primary: 153 57% 50%; /* Matches primary */
+    --sidebar-background: 207 40% 8%; /* Matches background */
+    --sidebar-foreground: 0 0% 95%; /* Matches foreground */
+    --sidebar-primary: 159 65% 45%; /* Matches primary */
     --sidebar-primary-foreground: 0 0% 100%; /* White for contrast */
-    --sidebar-accent: 153 30% 90%; /* Matches secondary */
-    --sidebar-accent-foreground: 153 60% 10%; /* Matches foreground */
-    --sidebar-border: 153 20% 85%; /* Matches border */
-    --sidebar-ring: 153 57% 50%; /* Matches primary */
+    --sidebar-accent: 187 71% 47%; /* Matches secondary */
+    --sidebar-accent-foreground: 0 0% 95%; /* Matches foreground */
+    --sidebar-border: 207 40% 20%; /* Matches border */
+    --sidebar-ring: 159 65% 45%; /* Matches primary */
   }
 
   .dark {
-    --background: 153 60% 10%; /* Dark green-tinted background */
-    --foreground: 153 40% 98%; /* Light green-tinted foreground */
+    --background: 207 40% 8%; /* Consistent dark slate background */
+    --foreground: 0 0% 95%; /* Light gray/white for text */
 
-    --card: 153 60% 10%; /* Matches dark background */
-    --card-foreground: 153 40% 98%; /* Matches foreground */
+    --card: 207 40% 10%; /* Matches background */
+    --card-foreground: 0 0% 95%; /* Matches foreground */
 
-    --popover: 153 60% 10%; /* Matches dark background */
-    --popover-foreground: 153 40% 98%; /* Matches foreground */
+    --popover: 207 40% 10%; /* Matches background */
+    --popover-foreground: 0 0% 95%; /* Matches foreground */
 
-    --primary: 153 57% 50%; /* Base color */
+    --primary: 159 65% 45%; /* Emerald #10b981 */
     --primary-foreground: 0 0% 100%; /* White for contrast */
 
-    --secondary: 153 30% 20%; /* Darker green-tinted secondary */
-    --secondary-foreground: 153 40% 98%; /* Matches foreground */
+    --secondary: 187 71% 47%; /* Cyan #06b6d4 */
+    --secondary-foreground: 0 0% 100%; /* White for contrast */
 
-    --muted: 153 25% 25%; /* Muted dark green */
-    --muted-foreground: 153 30% 60%; /* Mid-tone green for dark mode */
+    --muted: 207 40% 15%; /* Slightly lighter muted slate */
+    --muted-foreground: 0 0% 70%; /* Gray for muted text */
 
-    --accent: 150 50% 60%; /* Slightly shifted hue for accent */
+    --accent: 267 58% 61%; /* Purple #8b5cf6 */
     --accent-foreground: 0 0% 100%; /* White for contrast */
 
     --destructive: 0 70% 50%; /* Red for destructive actions */
     --destructive-foreground: 0 0% 100%; /* White for readability */
 
-    --border: 153 20% 25%; /* Dark green-tinted border */
-    --input: 153 20% 25%; /* Matches border */
-    --ring: 153 57% 50%; /* Matches primary */
+    --border: 207 40% 20%; /* Slightly lighter slate border */
+    --input: 207 40% 20%; /* Matches border */
+    --ring: 159 65% 45%; /* Matches primary (emerald) */
 
-    /* Dark mode gradients harmonized with base color */
-    --gradient-primary: linear-gradient(135deg, hsl(153, 57%, 50%), hsl(150, 50%, 60%));
-    --gradient-secondary: linear-gradient(180deg, hsl(153, 60%, 10%), hsl(153, 30%, 20%));
-    --gradient-accent: linear-gradient(45deg, hsl(153, 57%, 50%), hsl(150, 50%, 60%));
-    --gradient-hero: linear-gradient(135deg, hsl(153, 57%, 50%) 0%, hsl(150, 50%, 60%) 50%, hsl(153, 57%, 50%) 100%);
-    
-    /* Dark mode shadows harmonized with base color */
-    --shadow-primary: 0 20px 40px -10px hsl(153, 57%, 50%);
-    --shadow-card: 0 8px 25px -5px hsla(153, 57%, 50%, 0.25);
-    --shadow-hover: 0 20px 50px -10px hsl(153, 57%, 50%);
-    --shadow-elegant: 0 25px 50px -12px hsl(153, 57%, 50%);
-    --shadow-glow: 0 0 40px hsl(153, 57%, 50%);
-    
-    --sidebar-background: 153 60% 10%; /* Matches dark background */
-    --sidebar-foreground: 153 40% 98%; /* Matches foreground */
-    --sidebar-primary: 153 57% 50%; /* Matches primary */
+    /* Dark mode gradients */
+    --gradient-primary: linear-gradient(135deg, #10b981, #06b6d4);
+    --gradient-secondary: linear-gradient(180deg, #0a0e17, #1e293b);
+    --gradient-accent: linear-gradient(45deg, #10b981, #8b5cf6);
+    --gradient-hero: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #8b5cf6 100%);
+
+    /* Dark mode shadows */
+    --shadow-primary: 0 20px 40px -10px rgba(16, 185, 129, 0.5);
+    --shadow-card: 0 8px 25px -5px rgba(16, 185, 129, 0.25);
+    --shadow-hover: 0 20px 50px -10px rgba(16, 185, 129, 0.5);
+    --shadow-elegant: 0 25px 50px -12px rgba(16, 185, 129, 0.5);
+    --shadow-glow: 0 0 40px rgba(16, 185, 129, 0.3);
+
+    --sidebar-background: 207 40% 8%; /* Matches background */
+    --sidebar-foreground: 0 0% 95%; /* Matches foreground */
+    --sidebar-primary: 159 65% 45%; /* Matches primary */
     --sidebar-primary-foreground: 0 0% 100%; /* White for contrast */
-    --sidebar-accent: 153 30% 20%; /* Matches secondary */
-    --sidebar-accent-foreground: 153 40% 98%; /* Matches foreground */
-    --sidebar-border: 153 20% 25%; /* Matches border */
-    --sidebar-ring: 153 57% 50%; /* Matches primary */
+    --sidebar-accent: 187 71% 47%; /* Matches secondary */
+    --sidebar-accent-foreground: 0 0% 95%; /* Matches foreground */
+    --sidebar-border: 207 40% 20%; /* Matches border */
+    --sidebar-ring: 159 65% 45%; /* Matches primary */
   }
 }
 
 @layer base {
   * {
     @apply border-border;
+    scroll-behavior: smooth
   }
 
   body {
-    @apply bg-background text-foreground ;
+    @apply bg-background text-foreground;
     font-feature-settings: "ss01", "ss02", "cv01", "cv11";
-     font-family: ExpoArabic, sans-serif;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+
   }
 }
 
 @layer components {
-  /* Enhanced Step Circle Animation */
+  /* Step Circle Animation */
   .step-circle {
     @apply relative overflow-hidden;
     transition: var(--transition-spring);
   }
-  
+
   .step-circle::before {
     content: '';
     @apply absolute inset-0 rounded-full;
@@ -154,43 +153,42 @@
     transform: scale(0.8);
     transition: var(--transition-spring);
   }
-  
+
   .step-circle.active::before {
-    opacity: 1;
-    transform: scale(1);
+    opacity: 0; /* As requested */
   }
-  
+
   .step-circle.completed {
     @apply relative;
     animation: pulse-success 2s ease-in-out infinite;
   }
-  
+
   @keyframes pulse-success {
-    0%, 100% { 
-      box-shadow: 0 0 0 0 hsl(var(--primary) / 0.7);
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); /* Emerald shadow */
     }
-    50% { 
-      box-shadow: 0 0 0 10px hsl(var(--primary) / 0);
+    50% {
+      box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); /* Fade out */
     }
   }
-  
+
   /* Enhanced Card Hover Effects */
   .card-hover {
     transition: var(--transition-smooth);
   }
-  
+
   .card-hover:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: var(--shadow-hover);
   }
-  
+
   /* Glassmorphism Effect */
   .glass {
     backdrop-filter: blur(20px);
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
-  
+
   .glass-dark {
     backdrop-filter: blur(20px);
     background: rgba(0, 0, 0, 0.2);
@@ -198,6 +196,21 @@
   }
 }
 
-.step-circle.active::before{
-  opacity: 0;
+.GraphicSchool{
+  font-family: GraphicSchool , sans-serif !important;
 }
+
+::selection {
+    color: #ffffff;
+      background:  #14b8a6;
+}
+::-webkit-scrollbar {
+    width: 7px;
+    height: 6px;
+      background: linear-gradient( to bottom, #0b101b,  #14b8a6);
+
+}
+  ::-webkit-scrollbar-thumb {
+      background: linear-gradient( to right, #22d3ee, #34d399);
+      border-radius: 5px;
+  }

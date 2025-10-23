@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,6 +7,63 @@ import { Lock, Mail, Eye, EyeOff, ShieldCheck } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
+// StarField Component (reused from previous components)
+const StarField: React.FC = () => {
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const stars: { x: number; y: number; radius: number; alpha: number; color: string }[] = [];
+    const numStars = 100;
+
+    for (let i = 0; i < numStars; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.5 + 0.5,
+        alpha: Math.random() * 0.5 + 0.5,
+        color: Math.random() < 0.2 ? '#10b981' : Math.random() < 0.4 ? '#06b6d4' : '#ffffff',
+      });
+    }
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach((star) => {
+        star.alpha = 0.5 + Math.sin(Date.now() * 0.001 + star.x) * 0.5;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${star.color === '#ffffff' ? '255,255,255' : star.color === '#10b981' ? '16,185,129' : '6,182,212'}, ${star.alpha})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(animate);
+    };
+    animate();
+
+    return () => window.removeEventListener('resize', resizeCanvas);
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 z-[-1]"
+      style={{ background: 'transparent' }}
+    />
+  );
+};
 
 export const AuthPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,13 +77,12 @@ export const AuthPage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is already logged in
+    document.title = 'تسجيل الدخول';
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         navigate('/admin');
       } else {
-        // Attempt automatic sign-in with predefined credentials
         handleAutoSignIn();
       }
     };
@@ -50,7 +105,6 @@ export const AuthPage: React.FC = () => {
 
       if (error) {
         if (error.message === 'Invalid login credentials') {
-          // Attempt to sign up the user if sign-in fails
           await handleAutoSignUp(predefinedEmail, predefinedPassword, predefinedFullName);
           return;
         }
@@ -101,7 +155,6 @@ export const AuthPage: React.FC = () => {
           description: 'تم تسجيل الدخول تلقائياً',
         });
 
-        // Attempt to sign in immediately after sign-up
         const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -167,95 +220,134 @@ export const AuthPage: React.FC = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4" dir="rtl">
-      <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl mb-4">
-            <ShieldCheck className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-3xl font-bold text-white mb-2">
-            لوحة التحكم
-          </h1>
-          <p className="text-white/80">
-            قم بتسجيل الدخول للوصول إلى لوحة التحكم
-          </p>
-        </div>
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  };
 
-        <Card className="glass shadow-elegant border-0">
-          <CardContent className="p-6">
-            {error && (
-              <Alert className="mt-4 bg-destructive/10 border-destructive/20 text-destructive">
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: 'easeOut' },
+    },
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0e17] via-slate-900 to-[#1e293b] flex items-center justify-center p-4 relative overflow-hidden" dir="rtl">
+      <StarField />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(16,185,129,0.1),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(6,182,212,0.1),transparent_50%)]" />
+
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="w-full max-w-md relative z-10"
+      >
+        <motion.div variants={itemVariants} className="text-center mb-8">
+          <motion.div
+            animate={{ rotate: [0, 360] }}
+            transition={{ duration: 20, repeat: Infinity }}
+            className="w-20 h-20 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-emerald-500/30"
+          >
+            <ShieldCheck className="w-10 h-10 text-white" />
+          </motion.div>
+          <motion.h1
+            variants={itemVariants}
+            className="text-4xl md:text-5xl font-bold text-white mb-2 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
+          >
+            تسجيل الدخول
+          </motion.h1>
+          <motion.p variants={itemVariants} className="text-gray-300">
+            مرحباً بك في لوحة التحكم
+          </motion.p>
+        </motion.div>
+
+        <motion.form
+          variants={itemVariants}
+          onSubmit={handleSignIn}
+          className="space-y-6 bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
+        >
+          <motion.div variants={itemVariants}>
+            <Label className="block text-white mb-2 flex items-center gap-2">
+              <Mail className="w-5 h-5 text-emerald-400" />
+              البريد الإلكتروني
+            </Label>
+            <div className="relative">
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                required
+                value={formData.email}
+                onChange={handleInputChange}
+                className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-gray-400 focus:border-emerald-400 focus:outline-none transition-colors"
+                placeholder="example@company.com"
+              />
+            </div>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <Label className="block text-white mb-2 flex items-center gap-2">
+              <Lock className="w-5 h-5 text-emerald-400" />
+              كلمة المرور
+            </Label>
+            <div className="relative">
+              <Input
+                id="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                required
+                value={formData.password}
+                onChange={handleInputChange}
+                className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-gray-400 focus:border-emerald-400 focus:outline-none transition-colors"
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+          </motion.div>
+
+          {error && (
+            <motion.div variants={itemVariants} className="text-red-400 text-center">
+              <Alert className="bg-red-500/10 border-red-400/20">
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
-            )}
+            </motion.div>
+          )}
 
-            <form onSubmit={handleSignIn} className="space-y-4 mt-6">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-primary">
-                  البريد الإلكتروني
-                </Label>
-                <div className="relative">
-                  <Mail className="absolute right-3 top-3 h-4 w-4 text-primary" />
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    onChange={handleInputChange}
-                    className="pr-10 bg-white/10 border-primary text-black placeholder:text-white/60 focus:border-white/40"
-                    placeholder="أدخل بريدك الإلكتروني"
-                  />
-                </div>
-              </div>
+          <motion.div variants={itemVariants} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-4 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-xl font-bold text-lg shadow-lg shadow-emerald-500/30 flex items-center justify-center gap-2"
+            >
+              <ShieldCheck className="w-5 h-5" />
+              {isLoading ? 'جاري تسجيل الدخول...' : 'دخول الآن'}
+            </Button>
+          </motion.div>
+        </motion.form>
 
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-primary">
-                  كلمة المرور
-                </Label>
-                <div className="relative">
-                  <Lock className="absolute right-3 top-3 h-4 w-4 text-primary" />
-                  <Input
-                    id="password"
-                    name="password"
-                    type={showPassword ? 'text' : 'password'}
-                    required
-                    onChange={handleInputChange}
-                    className="pr-10 pl-10 bg-white/10 border-primary text-black placeholder:text-white/60 focus:border-white/40"
-                    placeholder="أدخل كلمة المرور"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute left-3 top-3 text-primary/80 hover:text-primary"
-                  >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </button>
-                </div>
-              </div>
-
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full bg-primary text-white hover:bg-primary/80 font-semibold"
-              >
-                {isLoading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-
-        <div className="text-center mt-6">
-          <Button
-            variant="ghost"
-            onClick={() => navigate('/')}
-            className="text-white/80 hover:text-white hover:bg-white/10"
-          >
-            العودة إلى الصفحة الرئيسية
-          </Button>
-        </div>
-      </div>
+        <motion.p
+          variants={itemVariants}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="text-center mt-6 text-gray-400"
+        >
+          © 2025 يسرها - جميع الحقوق محفوظة
+        </motion.p>
+      </motion.div>
     </div>
   );
 };
